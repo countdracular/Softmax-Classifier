@@ -1,0 +1,123 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Unknown </title></head><body>
+<h1 id="implementation-of-softmax-classifier">Implementation of Softmax Classifier</h1>
+<h3 id="problem-statement">Problem Statement:</h3>
+<p>Implementation of Softmax Classifier on Iris and CIFAR-10 dataset.</p>
+<h3 id="description">Description:</h3>
+<p>Softmax Regression also called as <em>Multinomial Logistic, Maximum Entropy Classifier, or Multi-class Logistic Regression</em> is a generalization of logistic regression that we can use for multi-class classification under the assumption that the classes are mutually exclusive. In contrast, we use the (standard) Logistic Regression model in binary classification tasks.</p>
+<p>Below is the perceptron diagram:</p>
+<p><img alt="Perceptron" src="perceptron-1.png"/></p>
+<p>Here, softmax was used as an <strong>activation function</strong> which allows us to interpret the outputs as probabilities.</p>
+<p><img alt="Softmax Function" src="softmaxFunImage-1.png"/></p>
+<p><strong>Cross Entropy loss</strong> is use to measure the error at a softmax layer.</p>
+<p><img alt="Cross Entropy Loss" src="crossEntropyLoss-1.png"/></p>
+<p>Implemented a Softmax classifier with <strong>L_2 weight decay regularization</strong>. Regularization is used to prevent overfitting in neural nets. When training neural networks, it is common to use "weight decay," where after each update, the weights are multiplied by a factor slightly less than 1. This prevents the weights from growing too large, and can be seen as gradient descent on a quadratic regularization term.</p>
+<p><img alt="L2 weight decay regularization" src="l2Regularization-1.PNG"/></p>
+<p>where, the regularization parameter lambda determines how you trade off the origin loss L with the large weights penalization and 'w' is the coefficient of the weight matrix.</p>
+<p>I have also used <strong>stochastic gradient descent with mini-batches</strong> and <strong>momentum</strong> to minimize softmax (cross-entropy) loss of this single layer neural network. </p>
+<p><strong>Mini-batch gradient</strong> descent is a trade-off between stochastic gradient descent and batch gradient descent.  In mini-batch gradient descent, the cost function (and therefore gradient) is averaged over a small number of samples, from around 10-500.  This is opposed to the SGD batch size of <em>1</em> sample, and the BGD size of all the training samples. The benefit of using mini-batches is that it smooths out some of the noise in SGD, but not all of it, thereby still allowing the “kick” out of local minimums of the cost function.  Also, the mini-batch size is still small, thereby keeping the performance benefits of SGD. The <strong>momentum</strong> is used to get better converge rates on deep networks. A model can easily get stuck in a local minima and the algorithm may think you reach the global minima leading to sub-optimal results. To avoid this situation, we use a momentum term in the objective function, which is a value between 0 and 1 that increases the size of the steps taken towards the minimum by trying to jump from a local minima.</p>
+<hr/>
+<h3 id="dependencies">Dependencies:</h3>
+<ul>
+<li>Python 3.5+</li>
+<li>Numpy</li>
+<li>Matplotlib</li>
+<li>pickle</li>
+</ul>
+<hr/>
+<h3 id="execution-of-program">Execution of Program:</h3>
+<p><strong>Run Softmax classifier on Iris dataset as:</strong></p>
+<p><code>powershell
+python softmaxClassifier.py</code></p>
+<p><code>powershell
+python softmaxClassifier.py -lr 0.07 -e 1000 -bs 10 -r 0.001 -m 0.05</code></p>
+<p><strong>Run Softmax classifier on CIFAR-10 dataset as:</strong></p>
+<p><code>powershell
+python softmaxWithCIFAR10.py</code></p>
+<p><code>powershell
+python softmaxWithCIFAR10.py -lr 0.01 -e 100 -bs 200 -r 0.001 -m 0.005</code></p>
+<p>where,</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-lr</td>
+<td>Learning rate or step size <strong><em>[Default: 0.07]</em></strong></td>
+</tr>
+<tr>
+<td>-e</td>
+<td>Number of epochs <strong><em>[Default: 1000]</em></strong></td>
+</tr>
+<tr>
+<td>-bs</td>
+<td>Number of sample in mini-batches <strong><em>[Default: 10]</em></strong></td>
+</tr>
+<tr>
+<td>-r</td>
+<td>L2 weight decay regularization lambda value <strong><em>[Default: 0.001]</em></strong></td>
+</tr>
+<tr>
+<td>-m</td>
+<td>A momentum value <strong><em>[Default: 0.05]</em></strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="output">Output:</h3>
+<ol>
+<li>
+<h4 id="iris-dataset">Iris Dataset:</h4>
+</li>
+</ol>
+<p>```python
+   HYPERPARAMETERS:
+   Epochs: 1000
+   Learning Rate: 0.07
+   Batch size: 10
+   Regression Strength: 0.001
+   Momentum: 0.05</p>
+<p>MEAN-PER CLASS ACCURACY:
+   Training Accuracy: 0.81
+   Testing Accuracy: 0.83
+   ```</p>
+<p><img alt="Mean Per Class Accuracy and Cross Entropy Loss over Epochs" src="2_1_crossEntropyLoss_MeanPerClassAccuracy-1.png"/></p>
+<ul>
+<li>
+<h4 id="train-dataset">Train Dataset:</h4>
+</li>
+</ul>
+<p><img alt="Decision Boundary on Training data" src="2_2_DecisionBoundary_trainData-1.png"/></p>
+<ul>
+<li>
+<h4 id="test-dataset">Test Dataset:</h4>
+</li>
+</ul>
+<p><img alt="Decision Boundary on Test data" src="2_2_DecisionBoundary_TestData-1.png"/></p>
+<ol>
+<li>
+<h4 id="cifar-10-dataset">CIFAR-10 Dataset:</h4>
+</li>
+</ol>
+<p>The CIFAR-10 dataset contains 60,000 RGB images from 10 categories. Download it from here: </p>
+<p>https://www.cs.toronto.edu/~kriz/cifar.html</p>
+<p>Download <a href="https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz">CIFAR-10 python version</a> , extract it and save under the directory where softmaxWithCIFAR10.py file location. CIFAR-10 dataset contains data_batch_1, data_batch__2, data_batch_3, data_batch_4, data_batch_5, test_batch.</p>
+<p>##### Sample Images:</p>
+<p><img alt="CIFAR-10 Images" src="cifar10_images-1.png"/></p>
+<p>```python
+   HYPERPARAMETERS:
+   Epochs: 1000
+   Learning Rate: 0.001
+   Batch size: 200
+   Regression Strength: 0.0001
+   Momentum: 0.005</p>
+<p>MEAN-PER CLASS ACCURACY:
+   Training Accuracy: 0.44
+   Testing Accuracy: 0.41
+   ```</p>
+<p><img alt="Mean Per Class Accuracy and Cross Entropy Loss over Epochs" src="3_2_crossEntropyLoss_MeanPerClassAccuracy-1.png"/></p>
+<p><img alt="Confusion Matrix" src="3_2_confusionMatrix-1.png"/></p>
+<p>As we can see, the single neuron softmax classifier model is not strong enough to learn higher dimensional features and hence the accuracy comes in 40's.</p>
+</body></html>
